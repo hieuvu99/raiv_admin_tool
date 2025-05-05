@@ -1,0 +1,11 @@
+{
+  "resourceName": "s3raivnonprodmobilestorage2abca038",
+  "bucketName": "raiv-nonprod-mobile-storage-2abca038",
+  "policyUUID": "e851478e",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ]
+}

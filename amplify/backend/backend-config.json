@@ -1,0 +1,220 @@
+{
+  "api": {
+    "raivnonprodmobile": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "raivnonprodmobile"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authraivnonprodmobile"
+              }
+            },
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2026-04-26T02:01:08.444Z",
+              "apiKeyExpirationDays": 365,
+              "description": "RAIV MOBILE APP KEY"
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
+  "auth": {
+    "raivnonprodmobile": {
+      "customAuth": false,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "raivnonprodmobileCreateAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "raivnonprodmobileDefineAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "raivnonprodmobileVerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS",
+            "REQUIRES_UPPERCASE"
+          ],
+          "passwordPolicyMinLength": 9
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "raivnonprodmobileCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "raivnonprodmobileDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "raivnonprodmobileVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "hosting": {
+    "amplifyhosting": {
+      "providerPlugin": "awscloudformation",
+      "service": "amplifyhosting",
+      "type": "manual"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_raivnonprodmobile_appleAppId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "raivnonprodmobile"
+        }
+      ]
+    },
+    "AMPLIFY_function_raivnonprodmobileCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "raivnonprodmobileCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_raivnonprodmobileCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "raivnonprodmobileCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_raivnonprodmobileDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "raivnonprodmobileDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_raivnonprodmobileDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "raivnonprodmobileDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_raivnonprodmobileVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "raivnonprodmobileVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_raivnonprodmobileVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "raivnonprodmobileVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_appId": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    },
+    "AMPLIFY_hosting_amplifyhosting_type": {
+      "usedBy": [
+        {
+          "category": "hosting",
+          "resourceName": "amplifyhosting"
+        }
+      ]
+    },
+    "AMPLIFY_storage_raivnonprodmobile25d6e2d0_bucketName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "raivnonprodmobile25d6e2d0"
+        }
+      ]
+    },
+    "AMPLIFY_storage_raivnonprodmobile25d6e2d0_region": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "raivnonprodmobile25d6e2d0"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "s3raivnonprodmobilestorage2abca038": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
+  }
+}

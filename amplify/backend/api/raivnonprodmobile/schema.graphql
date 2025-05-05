@@ -1,0 +1,115 @@
+type UploaderFileHistory @model @auth(rules: [{allow: public, operations: [create, read, update]}]) {
+  id: ID!
+  email: String
+  uuid: String
+  fileName: String
+  fileSize: String
+  downloadUrl: String
+  timeStamp: String
+}
+
+type UploaderUserInfo @model @auth(rules: [{allow: public, operations: [create, read, update]}]) {
+  id: ID!
+  uuid: String
+  name: String
+  email: String
+  isActive: Boolean
+  isAdmin: Boolean
+}
+
+type CliQueryData @model @auth(rules: [{allow: public, operations: [create, read, update]}]) {
+  id: ID!
+  uuid: String
+  title: String
+  decscription: String
+  gender: String
+  transgender: String
+  education: String
+  languageId: String
+  languageFluency: String
+  miniCourse: String
+  speechDisorders: String
+  downloadUrl: String
+  status: String
+  date: String
+}
+
+type AppConfig @model @auth(rules: [{allow: public, operations: [read]}]) {
+  id: ID!
+  maxSetsSize: Int
+  allowSkip: Boolean
+}
+
+type RecordedPhrase @model @auth(rules: [{allow: public, operations: [read, create, update]}, {allow: private, operations: [read, create, update]}, {allow: owner, operations: [create, read, update]}]) {
+  id: ID!
+  phraseId: String
+  phraseSetId: String
+  identityId: String
+  uuid: String
+  postgresId: String
+  filepath: String
+  recordedTime: String
+  languageId: String
+  isValidated: Boolean
+  validationStatus: String
+  validationComment: String
+  validationRating: Int
+  validatedBy: ID
+  validatedAt: AWSDateTime
+}
+
+
+type FeedbackData @model @auth(rules: [{allow: public, operations: [read, create]}, {allow: private, operations: [read, update, create]}, {allow: owner, operations: [create, read, update]}]) {
+  id: ID!
+  uid: String
+  identityId: String
+  firstName: String
+  lastName: String
+  email: String
+  message: String
+  date: String
+  isCompleted: Boolean
+}
+
+type UserInfo @model @auth(rules: [{allow: public, operations: [read, update, create]}, {allow: owner, operations: [create, read, update]}, {allow: private, operations: [read, update, create]}]) {
+  id: ID!
+  languageId: String
+  firstName: String
+  lastName: String
+  email: String
+  phraseSubsetIndex: String
+  project: String
+  dob: String
+  gender: String
+  geographicLocation: String
+  firstLanguage: String
+  fluency: String
+  education: String
+  priorMinCourseTraining: String
+  speechDisorders: String
+  isTransgender: String
+  uid: String
+  isAdmin: Boolean
+  isActive: Boolean
+  identityId: String
+  enabledDailyReminder: Boolean
+  reminderTime: String
+  postgresId: Int
+}
+
+type KwakwalaPhraseDB @model @auth(rules: [{allow: public, operations: [read, create, update]}, {allow: private, operations: [read, create, update]}, {allow: owner, operations: [create, read, update]}]) {
+  id: ID!
+  phraseId: Int
+  phraseSetId: Int
+  description: String
+  original: String
+  translated: String
+  enabled: Boolean
+  languageId: Int
+  exampleAudioPath: String
+  recording1Start: Float
+  recording1Stop: Float
+  recording2Start: Float
+  recording2Stop: Float
+}
+ 

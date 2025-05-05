@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "raivnonprodmobile",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authraivnonprodmobile",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2025-04-26T02:01:15.750Z"
+}

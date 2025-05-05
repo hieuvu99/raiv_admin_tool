@@ -1,0 +1,50 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-raivnonprodmobile-staging-12016-authRole",
+      "UnauthRoleArn": "arn:aws:iam::637423228800:role/amplify-raivnonprodmobile-staging-12016-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::637423228800:role/amplify-raivnonprodmobile-staging-12016-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-raivnonprodmobile-staging-12016-deployment",
+      "UnauthRoleName": "amplify-raivnonprodmobile-staging-12016-unauthRole",
+      "StackName": "amplify-raivnonprodmobile-staging-12016",
+      "StackId": "arn:aws:cloudformation:us-west-2:637423228800:stack/amplify-raivnonprodmobile-staging-12016/278f4320-0aea-11ef-a426-024c178ef111",
+      "AmplifyAppId": "d2z4kwc85xghg",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-raivnonprodmobile-staging-12016-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "raivnonprodmobile": {
+          "appleAppId": "ai.firstlanguages.raiv"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2z4kwc85xghg",
+          "type": "manual"
+        }
+      },
+      "storage": {
+        "raivnonprodmobile25d6e2d0": {
+          "bucketName": "flair-nonprod",
+          "region": "us-west-2"
+        },
+        "s3raivnonprodmobilestorage2abca038": {}
+      },
+      "function": {
+        "raivnonprodmobileCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-raivnonprodmobile-staging-12016-deployment",
+          "s3Key": "amplify-builds/raivnonprodmobileCreateAuthChallenge-6c4d776756576a6f324a-build.zip"
+        },
+        "raivnonprodmobileDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-raivnonprodmobile-staging-12016-deployment",
+          "s3Key": "amplify-builds/raivnonprodmobileDefineAuthChallenge-33396d4447646e5a2b36-build.zip"
+        },
+        "raivnonprodmobileVerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-raivnonprodmobile-staging-12016-deployment",
+          "s3Key": "amplify-builds/raivnonprodmobileVerifyAuthChallengeResponse-69627647554d7862704e-build.zip"
+        }
+      }
+    }
+  }
+}
