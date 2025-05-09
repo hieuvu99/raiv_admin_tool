@@ -4,21 +4,16 @@ import AuthService from "@/service/AuthServices";
 import { signOut } from "@aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import "./style.css";
 
 const ConfirmationCodePage: React.FC = () => {
   const { user, setUser } = useAuth();
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const [isLoading, setIsLoading] = useState(false);
+  const inputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
   const [feedback, setFeedback] = useState<string | null>(null);
 
   const router = useRouter();
-
-  const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value) && value.length <= 6) {
-      setCode(value);
-    }
-  };
 
   const handleVerify = async () => {
     if (!user) {
@@ -36,7 +31,7 @@ const ConfirmationCodePage: React.FC = () => {
 
     try {
       // Simulate API call
-      const result = await AuthService.confirmVerificationCode(code);
+      const result = await AuthService.confirmVerificationCode(code.join(""));
       if (result.isSignedIn && result.nextStep?.signInStep === "DONE") {
         setUser(result); // Store user in context
         router.push("/home"); // Redirect to the home page after successful verification
@@ -50,21 +45,40 @@ const ConfirmationCodePage: React.FC = () => {
   };
 
   return (
-    <div style={styles.page}>
-      <div style={styles.container}>
-        <h1>Sign In</h1>
-        <p>Enter the confirmation code sent to your email.</p>
-        <input
-          type="text"
-          value={code}
-          onChange={handleCodeChange}
-          placeholder="Enter 6-digit code"
-          style={styles.input}
-        />
+    <div className="confirmation-code-page">
+      <div className="confirmation-code-container">
+        <h1 className="font-black">Sign In</h1>
+        <p className="font-light">
+          Enter the confirmation code sent to your email.
+        </p>
+        <div
+          className="verification-input-container"
+          style={{ display: "flex", gap: "10px", justifyContent: "center" }}
+        >
+          {Array.from({ length: 6 }).map((_, index) => (
+            <React.Fragment key={index}>
+              <input
+                ref={(el) => {
+                  inputRefs.current[index] = el;
+                }}
+                type="text"
+                maxLength={1}
+                value={code[index] || ""}
+                onChange={onCodeDigitChange(index)}
+                onKeyDown={handleBackspaceFocus(
+                  code.join(""),
+                  index,
+                  inputRefs
+                )}
+                className="verification-input-box"
+              />
+            </React.Fragment>
+          ))}
+        </div>
         <button
           onClick={handleVerify}
+          className="confirmation-code-button"
           style={{
-            ...styles.button,
             cursor: isLoading ? "not-allowed" : "pointer",
           }}
           disabled={isLoading}
@@ -77,64 +91,55 @@ const ConfirmationCodePage: React.FC = () => {
             setUser(null); // Clear user session on cancel
             window.history.back();
           }}
+          className="confirmation-code-button"
           style={{
-            ...styles.button,
             cursor: isLoading ? "not-allowed" : "pointer",
           }}
           disabled={isLoading}
         >
           Cancel Sign-In
         </button>
-        {isLoading && <div style={styles.spinner}>Loading...</div>}
-        {feedback && <p style={styles.feedback}>{feedback}</p>}
+        {isLoading && <div className="spinner">Loading...</div>}
+        {feedback && <p className="feedback">{feedback}</p>}
       </div>
     </div>
   );
-};
 
-const styles: { [key: string]: React.CSSProperties } = {
-  page: {
-    backgroundColor: "var(--primary-color)", // Replace with your app's primary theme color variable
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  container: {
-    backgroundColor: "white",
-    padding: "2rem",
-    borderRadius: "8px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    textAlign: "center",
-    width: "40%",
-    maxWidth: "400px",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    margin: "10px 0",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-    fontSize: "16px",
-  },
-  button: {
-    width: "100%",
-    padding: "0.75rem",
-    backgroundColor: "var(--primary-color)", // Replace with your app's primary theme color variable
-    cursor: "pointer",
-    border: "none",
-    borderRadius: "4px",
-  },
-  spinner: {
-    marginTop: "10px",
-    fontSize: "14px",
-    color: "#007bff",
-  },
-  feedback: {
-    marginTop: "10px",
-    fontSize: "14px",
-    color: "#ff0000",
-  },
+  function onCodeDigitChange(
+    index: number
+  ): React.ChangeEventHandler<HTMLInputElement> | undefined {
+    return (e) => {
+      const value = e.target.value;
+      if (/^\d$/.test(value)) {
+        const newCode = code.slice();
+        newCode[index] = value;
+        setCode(newCode);
+        // Move focus to the next input box
+        const nextInput = inputRefs.current[index + 1];
+        if (nextInput) {
+          nextInput.focus();
+        }
+      } else if (value === "") {
+        const newCode = code.slice();
+        newCode[index] = "";
+        setCode(newCode);
+      }
+    };
+  }
 };
 
 export default ConfirmationCodePage;
+function handleBackspaceFocus(
+  code: string,
+  index: number,
+  inputRefs: React.RefObject<(HTMLInputElement | null)[]>
+): React.KeyboardEventHandler<HTMLInputElement> | undefined {
+  return (e) => {
+    if (e.key === "Backspace" && !code[index]) {
+      const previousInput = inputRefs.current[index - 1];
+      if (previousInput) {
+        previousInput.focus();
+      }
+    }
+  };
+}
