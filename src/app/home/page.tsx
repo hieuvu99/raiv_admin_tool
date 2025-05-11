@@ -24,7 +24,8 @@ import {
 import CustomButton from "@/components/customButton";
 import styles from "./style.module.css";
 import FileUploadComponent from "@/components/FileUploadComponent";
-
+import UploadedFileComponent from "@/components/UploadedFileComponent";
+import HistoryComponent from "@/components/HistoryComponent/index";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -149,10 +150,7 @@ const HomePage: React.FC = () => {
         overflow="auto"
       >
         {/* Header */}
-        <Flex
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        <Flex justifyContent="space-between" alignItems="center">
           <TextField
             label="Search"
             labelHidden
@@ -181,10 +179,17 @@ const HomePage: React.FC = () => {
           />
         </Flex>
         <Divider orientation="horizontal" marginBottom="2rem" />
-        {/* Uploads Section */}
-
-        {/* File Upload Section */}
-        <FileUploadComponent />
+        {
+          /* Uploads Section */
+          activeSection === "Uploads" && <FileUploadComponent />
+        }
+        {
+          /* History Section */
+          activeSection === "History" && <HistoryComponent />
+        }
+        {
+          activeSection === "Uploaded Files" && (<UploadedFileComponent />)
+        }
       </Flex>
     </Flex>
   );
