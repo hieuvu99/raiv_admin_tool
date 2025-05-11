@@ -6,7 +6,7 @@ import "./globals.css";
 import { Amplify } from "aws-amplify";
 import awsExports from "@/aws-exports";
 import { AuthProvider } from "@/context/AuthContext";
-
+import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(awsExports);
 
