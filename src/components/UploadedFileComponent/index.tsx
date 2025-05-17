@@ -78,17 +78,24 @@ const UploadedFileComponent: React.FC = () => {
         >
           {/* File Info */}
           <Flex direction="row" alignItems="center" gap="1rem">
-            <Badge
+            <Flex
               backgroundColor="var(--amplify-colors-teal-60)"
               color="white"
-              size="large"
               borderRadius="50%"
-              padding="1rem"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="2.5rem"
+              height="2.5rem"
             >
-              {file.name.charAt(0).toUpperCase()}
-            </Badge>
-            <Flex direction="column">
-              <Text fontWeight="bold">{file.name}</Text>
+              <Badge color="white" size="large">
+                {file.name.charAt(0).toUpperCase()}
+              </Badge>
+            </Flex>
+            <Flex direction="column" gap={0}>
+                <Text fontWeight="bold" isTruncated >
+                {file.name}
+                </Text>
               <Text fontSize="small" color="gray">
                 {file.size}
               </Text>

@@ -35,15 +35,17 @@ const HistoryComponent: React.FC = () => {
           boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
         >
           {/* File Info */}
-          <Flex direction="row" alignItems="center" gap="1rem">
-            <Icon as={MdFilePresent} fontSize="1.5rem" color="gray" />
-            <Flex direction="column">
+            <Flex direction="row" alignItems="center" gap="1rem">
+            <Flex>
+              <Icon as={MdFilePresent} fontSize="3rem" color="gray"/>
+            </Flex>
+            <Flex direction="column" gap={0}>
               <Text fontWeight="bold">{file.name}</Text>
               <Text fontSize="small" color="gray">
-                {file.size}
+              {file.size}
               </Text>
             </Flex>
-          </Flex>
+            </Flex>
 
           {/* File Date and Download */}
           <Flex direction="row" alignItems="center" gap="1rem">

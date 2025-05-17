@@ -26,6 +26,8 @@ import styles from "./style.module.css";
 import FileUploadComponent from "@/components/FileUploadComponent";
 import UploadedFileComponent from "@/components/UploadedFileComponent";
 import HistoryComponent from "@/components/HistoryComponent/index";
+import PhraseReviewComponent from "@/components/PhraseReview";
+import CompletedReviewComponent from "@/components/CompletedReviewComponent";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -187,9 +189,9 @@ const HomePage: React.FC = () => {
           /* History Section */
           activeSection === "History" && <HistoryComponent />
         }
-        {
-          activeSection === "Uploaded Files" && (<UploadedFileComponent />)
-        }
+        {activeSection === "Uploaded Files" && <UploadedFileComponent />}
+        {activeSection === "Phrase Review" && <PhraseReviewComponent />}
+        {activeSection === "Completed Reviews" && <CompletedReviewComponent />}
       </Flex>
     </Flex>
   );
