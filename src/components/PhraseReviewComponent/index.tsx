@@ -13,54 +13,81 @@ import {
   TableBody,
   Icon,
 } from "@aws-amplify/ui-react";
-import { MdCheckCircle, MdError } from "react-icons/md";
+import { MdMoreHoriz } from "react-icons/md";
 import "./style.css";
-import { on } from "events";
-import ReviewModal from "../ReviewModal";
 
-interface CompletedPhraseItem {
+interface PhraseItem {
   status: string;
   phrase: string;
-  reviewedBy: string;
-  reviewedTime: string;
+  recordedBy: string;
+  recordedTime: string;
 }
 
-const completedPhrases: CompletedPhraseItem[] = [
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Georgux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:27",
-    },
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Mildredux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:27",
-    },
-    {
-        status: "Incompleted",
-        phrase: "Angwux da? - Sprucux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:27",
-    },
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Peterux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:26",
-    },
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Bertux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:26",
-    },
+const phrases: PhraseItem[] = [
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Georgux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:27",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Mildredux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:27",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Sprucux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:27",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Peterux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:26",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Bertux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:26",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Erniyux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:26",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Kathyux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:25",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Gertiyux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:25",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Marieyux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:25",
+  },
+  {
+    status: "Pending",
+    phrase: "Angwux da? - Mabelux da.",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:24",
+  },
 ];
 
-const CompletedReviewComponent: React.FC = () => {
+const PhraseReviewComponent: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = useState("Kwakwala");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" && window.innerWidth < 600
   );
@@ -95,9 +122,13 @@ const CompletedReviewComponent: React.FC = () => {
         padding={{ base: "0.5rem", medium: "1rem" }}
       >
         <Text color="grey" fontSize={{ base: "md", medium: "large" }}>
-          Completed Review
+          Recorded Phrases - Pending Review
         </Text>
-        <Flex gap="0.5rem" alignItems="center" width={{ base: "100%", medium: "auto" }}>
+        <Flex
+          gap="0.5rem"
+          alignItems="center"
+          width={{ base: "100%", medium: "auto" }}
+        >
           <Flex
             borderRadius="10px"
             overflow="hidden"
@@ -109,8 +140,12 @@ const CompletedReviewComponent: React.FC = () => {
             <Button
               onClick={() => setActiveLanguage("Kwakwala")}
               style={{
-                backgroundColor: activeLanguage === "Kwakwala" ? "var(--primary-color)" : "#fff",
+                backgroundColor:
+                  activeLanguage === "Kwakwala"
+                    ? "var(--primary-color)"
+                    : "#fff",
                 color: activeLanguage === "Kwakwala" ? "#fff" : "#000",
+                fontSize: "inherit",
               }}
               className="toggle-button"
             >
@@ -120,31 +155,30 @@ const CompletedReviewComponent: React.FC = () => {
               onClick={() => setActiveLanguage("Makha")}
               className="toggle-button"
               style={{
-                backgroundColor: activeLanguage === "Makha" ? "var(--primary-color)" : "#fff",
+                backgroundColor:
+                  activeLanguage === "Makha" ? "var(--primary-color)" : "#fff",
                 color: activeLanguage === "Makha" ? "#fff" : "#000",
+                fontSize: "inherit",
               }}
             >
               Makha
             </Button>
           </Flex>
-          <span style={{ cursor: "pointer" }} onClick={() => setIsModalOpen(true)}>
-            <Text fontSize={{ base: "xs", medium: "small" }} color="var(--primary-color)">
+          <span style={{ cursor: "pointer" }}>
+            <Text
+              fontSize={{ base: "xs", medium: "small" }}
+              color="var(--primary-color)"
+            >
               Review Tips
             </Text>
           </span>
-          {isModalOpen && (
-            <ReviewModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-            />
-          )}
         </Flex>
       </Flex>
 
       {/* Table or List for Mobile */}
       {isMobile ? (
         <Flex direction="column" gap="0.5rem">
-          {completedPhrases.map((phrase, idx) => (
+          {phrases.map((phrase, idx) => (
             <Flex
               key={idx}
               direction="column"
@@ -154,18 +188,14 @@ const CompletedReviewComponent: React.FC = () => {
               padding="0.75rem"
             >
               <Flex alignItems="center" gap="0.5rem">
-                <Icon
-                  as={phrase.status === "Completed" ? MdCheckCircle : MdError}
-                  fontSize="1.25rem"
-                  color={phrase.status === "Completed" ? "green" : "red"}
-                />
+                <Icon as={MdMoreHoriz} fontSize="1.25rem" color="orange" />
                 <Text fontWeight="bold">{phrase.phrase}</Text>
               </Flex>
               <Text fontSize="xs" color="gray">
-                By: {phrase.reviewedBy}
+                By: {phrase.recordedBy}
               </Text>
               <Text fontSize="xs" color="gray">
-                At: {phrase.reviewedTime}
+                At: {phrase.recordedTime}
               </Text>
             </Flex>
           ))}
@@ -177,12 +207,12 @@ const CompletedReviewComponent: React.FC = () => {
               <TableRow>
                 <TableCell as="th">Status</TableCell>
                 <TableCell as="th">Phrase</TableCell>
-                <TableCell as="th">Reviewed By</TableCell>
-                <TableCell as="th">Reviewed Time</TableCell>
+                <TableCell as="th">Recorded By</TableCell>
+                <TableCell as="th">Recorded Time</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {completedPhrases.map((phrase, index) => (
+              {phrases.map((phrase, index) => (
                 <TableRow
                   key={index}
                   style={{
@@ -190,22 +220,27 @@ const CompletedReviewComponent: React.FC = () => {
                   }}
                 >
                   <TableCell>
-                    <Icon
-                      as={phrase.status === "Completed" ? MdCheckCircle : MdError}
-                      fontSize="1.5rem"
-                      color={phrase.status === "Completed" ? "green" : "red"}
-                    />
+                    <Icon as={MdMoreHoriz} fontSize="1.5rem" color="orange" />
                   </TableCell>
                   <TableCell>
                     <span style={{ cursor: "pointer" }}>
-                      <Text color="navy">{phrase.phrase}</Text>
+                      <Text
+                        color="navy"
+                        fontSize={{ base: "xs", medium: "md" }}
+                      >
+                        {phrase.phrase}
+                      </Text>
                     </span>
                   </TableCell>
                   <TableCell>
-                    <Text>{phrase.reviewedBy}</Text>
+                    <Text fontSize={{ base: "xs", medium: "md" }}>
+                      {phrase.recordedBy}
+                    </Text>
                   </TableCell>
                   <TableCell>
-                    <Text>{phrase.reviewedTime}</Text>
+                    <Text fontSize={{ base: "xs", medium: "md" }}>
+                      {phrase.recordedTime}
+                    </Text>
                   </TableCell>
                 </TableRow>
               ))}
@@ -215,13 +250,16 @@ const CompletedReviewComponent: React.FC = () => {
       )}
 
       {/* Pagination */}
-      <Flex justifyContent="flex-end" padding={{ base: "0.5rem", medium: "1rem" }} marginTop="auto">
+      <Flex
+        justifyContent="flex-end"
+        padding={{ base: "0.5rem", medium: "1rem" }}
+      >
         <Text fontSize={{ base: "xs", medium: "small" }} color="gray">
-          1–5 of 5
+          1–10 of 128
         </Text>
       </Flex>
     </Flex>
   );
 };
 
-export default CompletedReviewComponent;
+export default PhraseReviewComponent;

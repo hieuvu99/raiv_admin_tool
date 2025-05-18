@@ -60,24 +60,25 @@ const UploadedFileComponent: React.FC = () => {
   return (
     <Flex
       direction="column"
-      gap="1rem"
-      padding="1rem"
+      gap={{ base: "0.75rem", medium: "1rem" }}
+      padding={{ base: "0.5rem", medium: "1rem" }}
       backgroundColor="#f9f9f9"
       borderRadius="8px"
     >
       {files.map((file, index) => (
         <Flex
           key={index}
-          direction="row"
-          alignItems="center"
+          direction={{ base: "column", medium: "row" }}
+          alignItems={{ base: "flex-start", medium: "center" }}
           justifyContent="space-between"
-          padding="1rem"
+          padding={{ base: "0.75rem", medium: "1rem" }}
           backgroundColor="white"
           borderRadius="8px"
           boxShadow="0px 2px 4px rgba(0, 0, 0, 0.1)"
+          gap={{ base: "0.75rem", medium: "1rem" }}
         >
           {/* File Info */}
-          <Flex direction="row" alignItems="center" gap="1rem">
+          <Flex direction="row" alignItems="center" gap={{ base: "0.75rem", medium: "1rem" }} width="100%">
             <Flex
               backgroundColor="var(--amplify-colors-teal-60)"
               color="white"
@@ -85,34 +86,46 @@ const UploadedFileComponent: React.FC = () => {
               display="flex"
               justifyContent="center"
               alignItems="center"
-              width="2.5rem"
-              height="2.5rem"
+              width={{ base: "2rem", medium: "2.5rem" }}
+              height={{ base: "2rem", medium: "2.5rem" }}
+              minWidth={{ base: "2rem", medium: "2.5rem" }}
             >
               <Badge color="white" size="large">
                 {file.name.charAt(0).toUpperCase()}
               </Badge>
             </Flex>
-            <Flex direction="column" gap={0}>
-                <Text fontWeight="bold" isTruncated >
+            <Flex direction="column" gap={0} minWidth={0}>
+              <Text
+                fontWeight="bold"
+                fontSize={{ base: "sm", medium: "md" }}
+                isTruncated
+                maxWidth={{ base: "140px", medium: "220px" }}
+              >
                 {file.name}
-                </Text>
-              <Text fontSize="small" color="gray">
+              </Text>
+              <Text fontSize={{ base: "xs", medium: "small" }} color="gray">
                 {file.size}
               </Text>
-              <Text fontSize="small" color="gray">
+              <Text fontSize={{ base: "xs", medium: "small" }} color="gray">
                 {file.email}
               </Text>
             </Flex>
           </Flex>
 
           {/* File Date and Download */}
-          <Flex direction="row" alignItems="center" gap="1rem">
-            <Text fontSize="small" color="gray">
+          <Flex
+            direction="row"
+            alignItems="center"
+            gap={{ base: "0.5rem", medium: "1rem" }}
+            width={{ base: "100%", medium: "auto" }}
+            justifyContent={{ base: "space-between", medium: "flex-end" }}
+          >
+            <Text fontSize={{ base: "xs", medium: "small" }} color="gray" whiteSpace="nowrap">
               {file.date}
             </Text>
             <Icon
               as={MdDownload}
-              fontSize="1.5rem"
+              fontSize={{ base: "1.25rem", medium: "1.5rem" }}
               color="gray"
               cursor="pointer"
             />

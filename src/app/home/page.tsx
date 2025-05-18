@@ -26,8 +26,10 @@ import styles from "./style.module.css";
 import FileUploadComponent from "@/components/FileUploadComponent";
 import UploadedFileComponent from "@/components/UploadedFileComponent";
 import HistoryComponent from "@/components/HistoryComponent/index";
-import PhraseReviewComponent from "@/components/PhraseReview";
+import PhraseReviewComponent from "@/components/PhraseReviewComponent";
 import CompletedReviewComponent from "@/components/CompletedReviewComponent";
+import SideBarComponent from "@/components/SideBarComponent";
+import BottomNavBar from "@/components/BottomNavBar";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -46,127 +48,54 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <Flex
-      height="100vh"
-      backgroundColor="var(
+    <>
+      <Flex
+        height="100vh"
+        backgroundColor="var(
     --primary-color
   )"
-    >
-      {/* Sidebar */}
-      <Flex
-        direction="column"
-        width="20%"
-        padding="1rem"
-        color="white"
-        style={{ flexDirection: "column" }}
       >
-        {/* Sidebar Header */}
+        {/* Sidebar */}
+        <SideBarComponent
+          activeSection={activeSection}
+          handleNavigation={handleNavigation}
+          handleLogout={handleLogout}
+          width={{ base: "100vw", medium: "250px" }}
+          minWidth="200px"
+          maxWidth="300px"
+          display={{ base: "none", medium: "flex" }}
+        />
+
+        {/* Main Content */}
         <Flex
+          flex="1"
           direction="column"
-          gap="0.5rem"
-          marginTop={"2rem"}
-          marginBottom="2rem"
-          style={{ justifyContent: "center" }}
+          padding={{ base: "1rem", medium: "2rem" }}
+          backgroundColor="white"
         >
-          <Heading level={4} color="white" fontWeight={50}>
-            RAIV <span style={{ fontStyle: "italic" }}>admin</span>
-          </Heading>
-          <Text fontSize="small" color="white">
-            ffarhan.s@gmail.com
-          </Text>
-        </Flex>
-
-        {/* Sidebar Navigation */}
-        <Flex direction="column" gap="1rem" marginBottom="2rem">
-          <Text fontSize="small" color="white" fontWeight={50}>
-            Admin Panel
-          </Text>
-          <Flex direction="column" gap="1rem">
-            <CustomButton
-              activeSection={activeSection}
-              handleNavigation={handleNavigation}
-              buttonName="Uploads"
-              buttonIcon={MdCloudUpload}
-            />
-            <CustomButton
-              activeSection={activeSection}
-              handleNavigation={handleNavigation}
-              buttonName="History"
-              buttonIcon={MdHistory}
-            />
-          </Flex>
-        </Flex>
-
-        {/* Admin Panel */}
-        <Flex direction="column" gap="1rem" marginBottom="2rem">
-          <Text fontSize="small" color="white" fontWeight={50}>
-            Admin Panel
-          </Text>
-          <Flex direction="column" gap="1rem" color={"white"}>
-            <CustomButton
-              activeSection={activeSection}
-              handleNavigation={handleNavigation}
-              buttonName="Uploaded Files"
-              buttonIcon={MdOutlineFolder}
-            />
-            <CustomButton
-              activeSection={activeSection}
-              handleNavigation={handleNavigation}
-              buttonName="Phrase Review"
-              buttonIcon={MdOutlineTranscribe}
-            />
-            <CustomButton
-              activeSection={activeSection}
-              handleNavigation={handleNavigation}
-              buttonName="Completed Reviews"
-              buttonIcon={MdOutlineStarHalf}
-            />
-          </Flex>
-        </Flex>
-
-        {/* Logout Button */}
-        <Flex direction="column" marginTop="auto">
-          <Button
-            variation="link"
-            size="small"
-            justifyContent="flex-start"
-            color="white"
-            onClick={handleLogout}
-            style={{
-              borderRadius: "5px",
-              padding: "0.5rem",
-            }}
-          >
-            <Icon name="logout" />
-            <Text marginLeft="0.5rem">Logout</Text>
-          </Button>
-        </Flex>
-      </Flex>
-
-      {/* Main Content */}
-      <Flex
-        flex="1"
-        direction="column"
-        padding="2rem"
-        backgroundColor="white"
-        overflow="auto"
-      >
-        {/* Header */}
-        <Flex justifyContent="space-between" alignItems="center">
-          <TextField
-            label="Search"
-            labelHidden
-            variation="quiet"
-            placeholder="Search your files here..."
-            size="small"
-            width="300px"
-            backgroundColor="#f5f5f5" // Light background color
-            borderRadius="8px" // Rounded corners
-            border="none" // Remove underline border
-            padding="0.5rem 1rem" // Add padding for better spacing
-            className={styles.textField}
-            outerStartComponent={
-              <Icon
+          {/* Header */}
+            <Flex
+            direction="column"
+            position={{ base: "sticky", medium: "static" }}
+            top={{ base: 0, medium: "auto" }}
+            backgroundColor="transparent"
+            style={{ zIndex: 10 }}
+            >
+            <Flex justifyContent="space-between" alignItems="center">
+              <TextField
+              label="Search"
+              labelHidden
+              variation="quiet"
+              placeholder="Search your files here..."
+              size="small"
+              width={{ base: "100%", medium: "300px" }}
+              backgroundColor="#f5f5f5" // Light background color
+              borderRadius="8px" // Rounded corners
+              border="none" // Remove underline border
+              padding="0.5rem 1rem" // Add padding for better spacing
+              className={styles.textField}
+              outerStartComponent={
+                <Icon
                 ariaLabel="Search"
                 as={MdOutlineSearch}
                 fontSize="1.2rem"
@@ -176,24 +105,29 @@ const HomePage: React.FC = () => {
                   marginRight: "0.5rem",
                   alignSelf: "center", // Align icon vertically
                 }}
+                />
+              }
               />
-            }
-          />
+            </Flex>
+            <Divider orientation="horizontal" marginBottom={{base:0,medium:"2rem"}} />
+            </Flex>
+
+          {/* Scrollable Content */}
+          <div style={{ flex: 1, overflow: "auto" }}>
+            {activeSection === "Uploads" && <FileUploadComponent />}
+            {activeSection === "History" && <HistoryComponent />}
+            {activeSection === "Uploaded Files" && <UploadedFileComponent />}
+            {activeSection === "Phrase Review" && <PhraseReviewComponent />}
+            {activeSection === "Completed Reviews" && <CompletedReviewComponent />}
+          </div>
         </Flex>
-        <Divider orientation="horizontal" marginBottom="2rem" />
-        {
-          /* Uploads Section */
-          activeSection === "Uploads" && <FileUploadComponent />
-        }
-        {
-          /* History Section */
-          activeSection === "History" && <HistoryComponent />
-        }
-        {activeSection === "Uploaded Files" && <UploadedFileComponent />}
-        {activeSection === "Phrase Review" && <PhraseReviewComponent />}
-        {activeSection === "Completed Reviews" && <CompletedReviewComponent />}
       </Flex>
-    </Flex>
+      {/* Bottom Navigation for Mobile */}
+      <BottomNavBar
+        activeSection={activeSection}
+        handleNavigation={handleNavigation}
+      />
+    </>
   );
 };
 
