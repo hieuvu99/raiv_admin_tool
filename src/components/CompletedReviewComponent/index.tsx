@@ -26,36 +26,36 @@ interface CompletedPhraseItem {
 }
 
 const completedPhrases: CompletedPhraseItem[] = [
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Georgux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:27",
-    },
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Mildredux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:27",
-    },
-    {
-        status: "Incompleted",
-        phrase: "Angwux da? - Sprucux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:27",
-    },
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Peterux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:26",
-    },
-    {
-        status: "Completed",
-        phrase: "Angwux da? - Bertux da.",
-        reviewedBy: "Sara Child",
-        reviewedTime: "16-May-25 22:26",
-    },
+  {
+    status: "Completed",
+    phrase: "Angwux da? - Georgux da.",
+    reviewedBy: "Sara Child",
+    reviewedTime: "16-May-25 22:27",
+  },
+  {
+    status: "Completed",
+    phrase: "Angwux da? - Mildredux da.",
+    reviewedBy: "Sara Child",
+    reviewedTime: "16-May-25 22:27",
+  },
+  {
+    status: "Incompleted",
+    phrase: "Angwux da? - Sprucux da.",
+    reviewedBy: "Sara Child",
+    reviewedTime: "16-May-25 22:27",
+  },
+  {
+    status: "Completed",
+    phrase: "Angwux da? - Peterux da.",
+    reviewedBy: "Sara Child",
+    reviewedTime: "16-May-25 22:26",
+  },
+  {
+    status: "Completed",
+    phrase: "Angwux da? - Bertux da.",
+    reviewedBy: "Sara Child",
+    reviewedTime: "16-May-25 22:26",
+  },
 ];
 
 const CompletedReviewComponent: React.FC = () => {
@@ -97,7 +97,11 @@ const CompletedReviewComponent: React.FC = () => {
         <Text color="grey" fontSize={{ base: "md", medium: "large" }}>
           Completed Review
         </Text>
-        <Flex gap="0.5rem" alignItems="center" width={{ base: "100%", medium: "auto" }}>
+        <Flex
+          gap="0.5rem"
+          alignItems="center"
+          width={{ base: "100%", medium: "auto" }}
+        >
           <Flex
             borderRadius="10px"
             overflow="hidden"
@@ -109,7 +113,10 @@ const CompletedReviewComponent: React.FC = () => {
             <Button
               onClick={() => setActiveLanguage("Kwakwala")}
               style={{
-                backgroundColor: activeLanguage === "Kwakwala" ? "var(--primary-color)" : "#fff",
+                backgroundColor:
+                  activeLanguage === "Kwakwala"
+                    ? "var(--primary-color)"
+                    : "#fff",
                 color: activeLanguage === "Kwakwala" ? "#fff" : "#000",
               }}
               className="toggle-button"
@@ -120,15 +127,22 @@ const CompletedReviewComponent: React.FC = () => {
               onClick={() => setActiveLanguage("Makha")}
               className="toggle-button"
               style={{
-                backgroundColor: activeLanguage === "Makha" ? "var(--primary-color)" : "#fff",
+                backgroundColor:
+                  activeLanguage === "Makha" ? "var(--primary-color)" : "#fff",
                 color: activeLanguage === "Makha" ? "#fff" : "#000",
               }}
             >
               Makha
             </Button>
           </Flex>
-          <span style={{ cursor: "pointer" }} onClick={() => setIsModalOpen(true)}>
-            <Text fontSize={{ base: "xs", medium: "small" }} color="var(--primary-color)">
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => setIsModalOpen(true)}
+          >
+            <Text
+              fontSize={{ base: "xs", medium: "small" }}
+              color="var(--primary-color)"
+            >
               Review Tips
             </Text>
           </span>
@@ -191,7 +205,9 @@ const CompletedReviewComponent: React.FC = () => {
                 >
                   <TableCell>
                     <Icon
-                      as={phrase.status === "Completed" ? MdCheckCircle : MdError}
+                      as={
+                        phrase.status === "Completed" ? MdCheckCircle : MdError
+                      }
                       fontSize="1.5rem"
                       color={phrase.status === "Completed" ? "green" : "red"}
                     />
@@ -215,7 +231,11 @@ const CompletedReviewComponent: React.FC = () => {
       )}
 
       {/* Pagination */}
-      <Flex justifyContent="flex-end" padding={{ base: "0.5rem", medium: "1rem" }} marginTop="auto">
+      <Flex
+        justifyContent="flex-end"
+        padding={{ base: "0.5rem", medium: "1rem" }}
+        marginTop="auto"
+      >
         <Text fontSize={{ base: "xs", medium: "small" }} color="gray">
           1–5 of 5
         </Text>
