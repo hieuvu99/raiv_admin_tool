@@ -65,17 +65,30 @@ const LoginPage: React.FC = () => {
         className="login-container"
         direction="column"
         alignItems="center"
-        padding="1rem"
+        padding={{ base: "1rem", medium: "2rem" }}
         backgroundColor="white"
         borderRadius="8px"
         boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
-        width="400px"
-        paddingBlock={"4rem"}
+        width={{ base: "90vw", small: "350px", medium: "400px" }}
+        maxWidth="95vw"
+        minWidth={{ base: "unset", medium: "350px" }}
+        paddingBlock={{ base: "2rem", medium: "4rem" }}
       >
-        <Heading level={3} className="font-black" marginBottom="1rem">
+        <Heading
+          level={3}
+          className="font-black"
+          marginBottom="1rem"
+          fontSize={{ base: "1.5rem", medium: "2rem" }}
+          textAlign="center"
+        >
           Secure Login
         </Heading>
-        <Text className="font-light" fontSize={12} textAlign="center">
+        <Text
+          className="font-light"
+          fontSize={{ base: "sm", medium: 12 }}
+          textAlign="center"
+          marginBottom="1rem"
+        >
           Please enter your email address to continue. We will send you a
           confirmation code to verify your identity.
         </Text>
@@ -92,8 +105,7 @@ const LoginPage: React.FC = () => {
           marginBottom="1rem"
           className="email-input"
           isRequired={true}
-          width={"100%"}
-          
+          width="100%"
         />
         <Button
           onClick={handleSendCode}
@@ -103,15 +115,18 @@ const LoginPage: React.FC = () => {
           size="large"
           isDisabled={isLoading}
           className="submit-button"
-          width={"70%"}
+          width={{ base: "100%", medium: "70%" }}
+          marginBottom="1rem"
         >
           Send Confirmation Code
         </Button>
-        <div>
+        <div style={{ width: "100%" }}>
           {feedbackMessage && (
             <Text
               marginTop="1rem"
               color={feedbackMessage.includes("success") ? "green" : "red"}
+              fontSize={{ base: "sm", medium: "md" }}
+              textAlign="center"
             >
               {feedbackMessage}
             </Text>

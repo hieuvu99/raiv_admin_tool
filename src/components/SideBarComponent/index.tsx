@@ -6,8 +6,10 @@ import {
   MdOutlineFolder,
   MdOutlineTranscribe,
   MdOutlineStarHalf,
+  MdLogout,
 } from "react-icons/md";
 import CustomButton from "@/components/customButton";
+import "./style.css";
 
 interface SideBarProps {
   activeSection: string;
@@ -98,13 +100,13 @@ const SideBarComponent: React.FC<
         justifyContent="flex-start"
         color="white"
         onClick={handleLogout}
-        style={{
-          borderRadius: "5px",
-          padding: "0.5rem",
-        }}
+        className="logOutButton"
       >
-        <Icon name="logout" />
-        <Text marginLeft="0.5rem">Logout</Text>
+        <Icon
+          aria-label="Logout"
+          as={MdLogout}
+          fontSize="1.5rem"
+        />
       </Button>
     </Flex>
   </Flex>

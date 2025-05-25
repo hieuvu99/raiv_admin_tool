@@ -7,6 +7,7 @@ import {
   MdOutlineTranscribe,
   MdOutlineStarHalf,
 } from "react-icons/md";
+import "./style.css";
 
 interface BottomNavBarProps {
   activeSection: string;
@@ -33,12 +34,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({
       variation="link"
       color={activeSection === "Uploads" ? "white" : "black"}
       onClick={() => handleNavigation("Uploads")}
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        minWidth: 0,
-        backgroundColor: "transparent",
-      }}
+      className="nav-button"
     >
       <MdCloudUpload size={22} />
       <Text fontSize="xs" fontWeight={100}>
@@ -49,12 +45,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({
       variation="link"
       color={activeSection === "History" ? "white" : "black"}
       onClick={() => handleNavigation("History")}
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        minWidth: 0,
-        backgroundColor: "transparent",
-      }}
+      className="nav-button"
     >
       <MdHistory size={22} />
       <Text fontSize="xs" fontWeight={100}>
@@ -65,12 +56,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({
       variation="link"
       color={activeSection === "Uploaded Files" ? "white" : "black"}
       onClick={() => handleNavigation("Uploaded Files")}
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        minWidth: 0,
-        backgroundColor: "transparent",
-      }}
+      className="nav-button"
     >
       <MdOutlineFolder size={22} />
       <Text fontSize="xs" fontWeight={100}>
@@ -81,12 +67,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({
       variation="link"
       color={activeSection === "Phrase Review" ? "white" : "black"}
       onClick={() => handleNavigation("Phrase Review")}
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        minWidth: 0,
-        backgroundColor: "transparent",
-      }}
+      className="nav-button"
     >
       <MdOutlineTranscribe size={22} />
       <Text fontSize="xs" fontWeight={100}>
@@ -97,12 +78,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({
       variation="link"
       color={activeSection === "Completed Reviews" ? "white" : "black"}
       onClick={() => handleNavigation("Completed Reviews")}
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        minWidth: 0,
-        backgroundColor: "transparent",
-      }}
+      className="nav-button"
     >
       <MdOutlineStarHalf size={22} />
       <Text fontSize="xs" fontWeight={100}>

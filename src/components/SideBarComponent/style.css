@@ -1,0 +1,17 @@
+ .logOutButton:hover,
+          .logOutButton:focus {
+        background: none !important;
+        box-shadow: none !important;
+        color: grey !important;
+          }
+.logOutButton {
+    border-radius: 5px;
+    padding: 0;
+    min-width: unset;
+    width: fit-content;
+    height: fit-content;
+    background: none;
+    box-shadow: none;
+    transition: none;
+    line-height: 0;
+}

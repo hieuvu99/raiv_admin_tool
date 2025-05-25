@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Flex,
   Text,
@@ -17,44 +17,252 @@ import { MdCheckCircle, MdError } from "react-icons/md";
 import "./style.css";
 import { on } from "events";
 import ReviewModal from "../ReviewModal";
+import { useAuth } from "@/context/AuthContext";
 
-interface CompletedPhraseItem {
-  status: string;
-  phrase: string;
-  reviewedBy: string;
-  reviewedTime: string;
+interface PhraseItem {
+  id: string;
+  _phraseId?: string;
+  _phraseSetId?: string;
+  _identityId?: string;
+  _uuid?: string;
+  _postgresId?: string;
+  _filepath?: string;
+  _recordedTime?: string;
+  _languageId?: string;
+  _isValidated?: boolean;
+  _validationStatus?: string;
+  _validationComment?: string | null;
+  _validationRating?: number | null;
+  _validatedBy?: string | null;
+  _validatedAt?: string | null; // Use string for TemporalDateTime
+  _createdAt?: string | null;
+  _updatedAt?: string | null;
+  phrase?: string; // Added property
+  recordedBy?: string; // Also add this if used elsewhere
+  recordedTime?: string; // Also add this if used elsewhere
 }
 
-const completedPhrases: CompletedPhraseItem[] = [
+const completedPhrases: PhraseItem[] = [
   {
-    status: "Completed",
+    id: "1",
+    _phraseId: "p1",
+    _phraseSetId: "set1",
+    _identityId: "user1",
+    _uuid: "uuid-1",
+    _postgresId: "pg-1",
+    _filepath: "/audio/1.mp3",
+    _recordedTime: "2024-05-16T22:27:00Z",
+    _languageId: "0",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Good recording.",
+    _validationRating: 5,
+    _validatedBy: "Sara Child",
+    _validatedAt: "2024-05-16T22:27:00Z",
+    _createdAt: "2024-05-16T21:00:00Z",
+    _updatedAt: "2024-05-16T22:27:00Z",
     phrase: "Angwux da? - Georgux da.",
-    reviewedBy: "Sara Child",
-    reviewedTime: "16-May-25 22:27",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:27",
   },
   {
-    status: "Completed",
+    id: "2",
+    _phraseId: "p2",
+    _phraseSetId: "set1",
+    _identityId: "user2",
+    _uuid: "uuid-2",
+    _postgresId: "pg-2",
+    _filepath: "/audio/2.mp3",
+    _recordedTime: "2024-05-16T22:27:00Z",
+    _languageId: "0",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Clear pronunciation.",
+    _validationRating: 5,
+    _validatedBy: "Sara Child",
+    _validatedAt: "2024-05-16T22:27:00Z",
+    _createdAt: "2024-05-16T21:05:00Z",
+    _updatedAt: "2024-05-16T22:27:00Z",
     phrase: "Angwux da? - Mildredux da.",
-    reviewedBy: "Sara Child",
-    reviewedTime: "16-May-25 22:27",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:27",
   },
   {
-    status: "Incompleted",
+    id: "3",
+    _phraseId: "p3",
+    _phraseSetId: "set1",
+    _identityId: "user3",
+    _uuid: "uuid-3",
+    _postgresId: "pg-3",
+    _filepath: "/audio/3.mp3",
+    _recordedTime: "2024-05-16T22:27:00Z",
+    _languageId: "0",
+    _isValidated: false,
+    _validationStatus: "Incompleted",
+    _validationComment: "Needs improvement.",
+    _validationRating: 2,
+    _validatedBy: "Sara Child",
+    _validatedAt: "2024-05-16T22:27:00Z",
+    _createdAt: "2024-05-16T21:10:00Z",
+    _updatedAt: "2024-05-16T22:27:00Z",
     phrase: "Angwux da? - Sprucux da.",
-    reviewedBy: "Sara Child",
-    reviewedTime: "16-May-25 22:27",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:27",
   },
   {
-    status: "Completed",
+    id: "4",
+    _phraseId: "p4",
+    _phraseSetId: "set1",
+    _identityId: "user4",
+    _uuid: "uuid-4",
+    _postgresId: "pg-4",
+    _filepath: "/audio/4.mp3",
+    _recordedTime: "2024-05-16T22:26:00Z",
+    _languageId: "0",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Accurate.",
+    _validationRating: 5,
+    _validatedBy: "Sara Child",
+    _validatedAt: "2024-05-16T22:26:00Z",
+    _createdAt: "2024-05-16T21:15:00Z",
+    _updatedAt: "2024-05-16T22:26:00Z",
     phrase: "Angwux da? - Peterux da.",
-    reviewedBy: "Sara Child",
-    reviewedTime: "16-May-25 22:26",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:26",
   },
   {
-    status: "Completed",
+    id: "5",
+    _phraseId: "p5",
+    _phraseSetId: "set1",
+    _identityId: "user5",
+    _uuid: "uuid-5",
+    _postgresId: "pg-5",
+    _filepath: "/audio/5.mp3",
+    _recordedTime: "2024-05-16T22:26:00Z",
+    _languageId: "0",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Well done.",
+    _validationRating: 5,
+    _validatedBy: "Sara Child",
+    _validatedAt: "2024-05-16T22:26:00Z",
+    _createdAt: "2024-05-16T21:20:00Z",
+    _updatedAt: "2024-05-16T22:26:00Z",
     phrase: "Angwux da? - Bertux da.",
-    reviewedBy: "Sara Child",
-    reviewedTime: "16-May-25 22:26",
+    recordedBy: "Sara Child",
+    recordedTime: "16-May-25 22:26",
+  },
+  // Makah language data (_languageId: "1")
+  {
+    id: "6",
+    _phraseId: "p6",
+    _phraseSetId: "set2",
+    _identityId: "user6",
+    _uuid: "uuid-6",
+    _postgresId: "pg-6",
+    _filepath: "/audio/6.mp3",
+    _recordedTime: "2024-05-17T10:00:00Z",
+    _languageId: "1",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Excellent clarity.",
+    _validationRating: 5,
+    _validatedBy: "John Smith",
+    _validatedAt: "2024-05-17T10:30:00Z",
+    _createdAt: "2024-05-17T09:50:00Z",
+    _updatedAt: "2024-05-17T10:30:00Z",
+    phrase: "č̓aaʔak ʔiš? - č̓aaʔak ʔiš.",
+    recordedBy: "John Smith",
+    recordedTime: "17-May-24 10:00",
+  },
+  {
+    id: "7",
+    _phraseId: "p7",
+    _phraseSetId: "set2",
+    _identityId: "user7",
+    _uuid: "uuid-7",
+    _postgresId: "pg-7",
+    _filepath: "/audio/7.mp3",
+    _recordedTime: "2024-05-17T10:05:00Z",
+    _languageId: "1",
+    _isValidated: false,
+    _validationStatus: "Incompleted",
+    _validationComment: "Background noise present.",
+    _validationRating: 3,
+    _validatedBy: "John Smith",
+    _validatedAt: "2024-05-17T10:35:00Z",
+    _createdAt: "2024-05-17T10:00:00Z",
+    _updatedAt: "2024-05-17T10:35:00Z",
+    phrase: "č̓aaʔak ʔiš? - č̓aaʔak ʔiš.",
+    recordedBy: "John Smith",
+    recordedTime: "17-May-24 10:05",
+  },
+  {
+    id: "8",
+    _phraseId: "p8",
+    _phraseSetId: "set2",
+    _identityId: "user8",
+    _uuid: "uuid-8",
+    _postgresId: "pg-8",
+    _filepath: "/audio/8.mp3",
+    _recordedTime: "2024-05-17T10:10:00Z",
+    _languageId: "1",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Good intonation.",
+    _validationRating: 4,
+    _validatedBy: "John Smith",
+    _validatedAt: "2024-05-17T10:40:00Z",
+    _createdAt: "2024-05-17T10:05:00Z",
+    _updatedAt: "2024-05-17T10:40:00Z",
+    phrase: "ʔiisaak ʔiš? - ʔiisaak ʔiš.",
+    recordedBy: "John Smith",
+    recordedTime: "17-May-24 10:10",
+  },
+  {
+    id: "9",
+    _phraseId: "p9",
+    _phraseSetId: "set2",
+    _identityId: "user9",
+    _uuid: "uuid-9",
+    _postgresId: "pg-9",
+    _filepath: "/audio/9.mp3",
+    _recordedTime: "2024-05-17T10:15:00Z",
+    _languageId: "1",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Well articulated.",
+    _validationRating: 5,
+    _validatedBy: "John Smith",
+    _validatedAt: "2024-05-17T10:45:00Z",
+    _createdAt: "2024-05-17T10:10:00Z",
+    _updatedAt: "2024-05-17T10:45:00Z",
+    phrase: "ʔuʔukʷił ʔiš? - ʔuʔukʷił ʔiš.",
+    recordedBy: "John Smith",
+    recordedTime: "17-May-24 10:15",
+  },
+  {
+    id: "10",
+    _phraseId: "p10",
+    _phraseSetId: "set2",
+    _identityId: "user10",
+    _uuid: "uuid-10",
+    _postgresId: "pg-10",
+    _filepath: "/audio/10.mp3",
+    _recordedTime: "2024-05-17T10:20:00Z",
+    _languageId: "1",
+    _isValidated: true,
+    _validationStatus: "Completed",
+    _validationComment: "Perfect.",
+    _validationRating: 5,
+    _validatedBy: "John Smith",
+    _validatedAt: "2024-05-17T10:50:00Z",
+    _createdAt: "2024-05-17T10:15:00Z",
+    _updatedAt: "2024-05-17T10:50:00Z",
+    phrase: "ʔuʔukʷił ʔiš? - ʔuʔukʷił ʔiš.",
+    recordedBy: "John Smith",
+    recordedTime: "17-May-24 10:20",
   },
 ];
 
@@ -64,8 +272,30 @@ const CompletedReviewComponent: React.FC = () => {
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" && window.innerWidth < 600
   );
+  const [makahPhraseSets, setMakahPhraseSets] = useState<PhraseItem[]>([]);
+  const [kwakwalaPhraseSets, setKwakwalaPhraseSets] = useState<PhraseItem[]>(
+    []
+  );
+  const [phraseList, setPhraseList] = useState<PhraseItem[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const kwakwala = completedPhrases.filter((p) => p._languageId === "0");
+    const makah = completedPhrases.filter((p) => p._languageId === "1");
+    setKwakwalaPhraseSets(kwakwala);
+    setMakahPhraseSets(makah);
+  }, []);
+
+  useEffect(() => {
+    // This effect runs when the component mounts or when activeLanguage changes
+    if (activeLanguage === "Kwakwala") {
+      setPhraseList(kwakwalaPhraseSets);
+    } else if (activeLanguage === "Makha") {
+      setPhraseList(makahPhraseSets);
+    }
+  }, [activeLanguage, kwakwalaPhraseSets, makahPhraseSets]);
+
+  const { user } = useAuth();
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 600);
     };
@@ -158,7 +388,7 @@ const CompletedReviewComponent: React.FC = () => {
       {/* Table or List for Mobile */}
       {isMobile ? (
         <Flex direction="column" gap="0.5rem">
-          {completedPhrases.map((phrase, idx) => (
+          {phraseList.map((phrase, idx) => (
             <Flex
               key={idx}
               direction="column"
@@ -169,17 +399,24 @@ const CompletedReviewComponent: React.FC = () => {
             >
               <Flex alignItems="center" gap="0.5rem">
                 <Icon
-                  as={phrase.status === "Completed" ? MdCheckCircle : MdError}
+                  as={
+                    phrase._validationStatus === "Completed"
+                      ? MdCheckCircle
+                      : MdError
+                  }
                   fontSize="1.25rem"
-                  color={phrase.status === "Completed" ? "green" : "red"}
+                  color={
+                    phrase._validationStatus === "Completed" ? "green" : "red"
+                  }
                 />
                 <Text fontWeight="bold">{phrase.phrase}</Text>
               </Flex>
               <Text fontSize="xs" color="gray">
-                By: {phrase.reviewedBy}
+                {/* This need to working on */}
+                By: {user?.firstname + user?.lastname || "Unknown"}
               </Text>
               <Text fontSize="xs" color="gray">
-                At: {phrase.reviewedTime}
+                At: {phrase._createdAt}
               </Text>
             </Flex>
           ))}
@@ -196,7 +433,7 @@ const CompletedReviewComponent: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {completedPhrases.map((phrase, index) => (
+              {phraseList.map((phrase, index) => (
                 <TableRow
                   key={index}
                   style={{
@@ -206,10 +443,16 @@ const CompletedReviewComponent: React.FC = () => {
                   <TableCell>
                     <Icon
                       as={
-                        phrase.status === "Completed" ? MdCheckCircle : MdError
+                        phrase._validationStatus === "Completed"
+                          ? MdCheckCircle
+                          : MdError
                       }
                       fontSize="1.5rem"
-                      color={phrase.status === "Completed" ? "green" : "red"}
+                      color={
+                        phrase._validationStatus === "Completed"
+                          ? "green"
+                          : "red"
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -218,10 +461,11 @@ const CompletedReviewComponent: React.FC = () => {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <Text>{phrase.reviewedBy}</Text>
+                    {/* This need to working on */}
+                    <Text>{user?.firstname + user?.lastname || "Unknown"}</Text>
                   </TableCell>
                   <TableCell>
-                    <Text>{phrase.reviewedTime}</Text>
+                    <Text>{phrase._createdAt}</Text>
                   </TableCell>
                 </TableRow>
               ))}

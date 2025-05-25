@@ -85,49 +85,75 @@ const ConfirmationCodePage: React.FC = () => {
         className="confirmation-code-container"
         direction="column"
         alignItems="center"
-        padding="2rem"
+        padding={{ base: "1.5rem", medium: "2rem" }}
         backgroundColor="white"
         borderRadius="8px"
         boxShadow="0px 4px 6px rgba(0, 0, 0, 0.1)"
-        width="400px"
+        width={{ base: "95vw", small: "350px", medium: "400px" }}
+        maxWidth="95vw"
+        minWidth={{ base: "unset", medium: "350px" }}
       >
         {isLoading ? (
           <Loader size="large" />
         ) : (
           <>
-            <Heading level={3} className="font-black" marginBottom="1rem">
+            <Heading
+              level={3}
+              className="font-black"
+              marginBottom="1rem"
+              fontSize={{ base: "1.5rem", medium: "2rem" }}
+              textAlign="center"
+            >
               Sign In
             </Heading>
             <Text
               className="font-light"
               marginBottom="1.5rem"
               textAlign="center"
+              fontSize={{ base: "sm", medium: "md" }}
             >
               A verification code has been sent to your email address. Please
               check your inbox and spam folder for the code.
             </Text>
             <div
               className="verification-input-container"
-              style={{ display: "flex", gap: "10px", justifyContent: "center" }}
+              style={{
+                display: "flex",
+                gap: "8px",
+                justifyContent: "center",
+                width: "100%",
+                marginBottom: "1.5rem",
+              }}
             >
               {Array.from({ length: 6 }).map((_, index) => (
-                <React.Fragment key={index}>
-                  <input
-                    ref={(el) => {
-                      inputRefs.current[index] = el;
-                    }}
-                    type="text"
-                    maxLength={1}
-                    value={code[index] || ""}
-                    onChange={onCodeDigitChange(index)}
-                    onKeyDown={handleBackspaceFocus(
-                      code.join(""),
-                      index,
-                      inputRefs
-                    )}
-                    className="verification-input-box"
-                  />
-                </React.Fragment>
+                <input
+                  key={index}
+                  ref={(el) => {
+                    inputRefs.current[index] = el;
+                  }}
+                  type="text"
+                  maxLength={1}
+                  value={code[index] || ""}
+                  onChange={onCodeDigitChange(index)}
+                  onKeyDown={handleBackspaceFocus(
+                    code.join(""),
+                    index,
+                    inputRefs
+                  )}
+                  className="verification-input-box"
+                  style={{
+                    // width: "2.5rem",
+                    // height: "2.5rem",
+                    // fontSize: "1.5rem",
+                    textAlign: "center",
+                    border: "1px solid #ccc",
+                    borderRadius: "6px",
+                    outline: "none",
+                    ...(window.innerWidth < 600
+                      ? { width: "3rem", height: "3rem", fontSize: "1.2rem" }
+                      : {}),
+                  }}
+                />
               ))}
             </div>
             <Button
@@ -153,7 +179,7 @@ const ConfirmationCodePage: React.FC = () => {
               variation="link"
               size="large"
               isDisabled={isLoading}
-              width="70%"
+              width={{ base: "100%", medium: "70%" }}
               marginTop="1rem"
               colorTheme="overlay"
             >
@@ -163,6 +189,8 @@ const ConfirmationCodePage: React.FC = () => {
               <Text
                 marginTop="1rem"
                 color={feedback.includes("success") ? "green" : "red"}
+                fontSize={{ base: "sm", medium: "md" }}
+                textAlign="center"
               >
                 {feedback}
               </Text>

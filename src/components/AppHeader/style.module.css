@@ -1,0 +1,19 @@
+.textField input {
+  border: none !important; /* Remove underline */
+  box-shadow: none !important; /* Remove focus outline */
+}
+
+.textField input:focus {
+  border: none !important; /* Remove border on focus */
+  box-shadow: none !important; /* Remove focus outline */
+}
+
+.searchIcon {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  align-self: center;
+}
+.logOutButton {
+  border-radius: 5px;
+  padding: 0.5rem;
+}

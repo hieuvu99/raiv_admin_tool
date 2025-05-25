@@ -1,5 +1,6 @@
-'use client';
+"use client";
 import { useAuth } from "@/context/AuthContext";
+import AuthService from "@/service/AuthServices";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
@@ -104,12 +105,16 @@ export default function Home() {
   //     </footer>
   //   </div>
   // );
-  const {user} = useAuth();
-  useEffect(() => {console.log(user)}, [user]);
-  
-  (!user) && redirect('/login');
-    // User is authenticated, redirect to the home page
-  (user && user.isSignedIn == "Done") && redirect('/home');
-  (user && user.isSignedIn == 'CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE') && redirect('/confirmation_code_page');
-  
+  const { user, setUser } = useAuth();
+  useEffect(() => {
+    AuthService.getCurrentUser().then((user) => {
+      !user && redirect("/login");
+      // User is authenticated, redirect to the home page
+      user &&
+        (() => {
+          setUser(user);
+          redirect("/home");
+        })();
+    });
+  }, []);
 }
