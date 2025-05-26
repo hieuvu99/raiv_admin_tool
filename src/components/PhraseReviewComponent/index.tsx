@@ -16,6 +16,7 @@ import {
 import { MdMoreHoriz } from "react-icons/md";
 import "./style.css";
 import { useAuth } from "@/context/AuthContext";
+import { useDevice } from "@/context/DeviceContext";
 
 interface PhraseItem {
   id: string;
@@ -487,9 +488,7 @@ const phrases = [
 
 const PhraseReviewComponent: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = useState("Kwakwala");
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" && window.innerWidth < 600
-  );
+  const { isMobile } = useDevice();
   const [makahPhraseSets, setMakahPhraseSets] = useState<PhraseItem[]>([]);
   const [kwakwalaPhraseSets, setKwakwalaPhraseSets] = useState<PhraseItem[]>(
     []
@@ -502,18 +501,6 @@ const PhraseReviewComponent: React.FC = () => {
     const makah = phrases.filter((p) => p._languageId === "1");
     setKwakwalaPhraseSets(kwakwala);
     setMakahPhraseSets(makah);
-  },[]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 600);
-    };
-
-    window.addEventListener("resize", handleResize);
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -523,7 +510,7 @@ const PhraseReviewComponent: React.FC = () => {
     } else if (activeLanguage === "Makha") {
       setPhraseList(makahPhraseSets);
     }
-  },[activeLanguage, kwakwalaPhraseSets, makahPhraseSets]);
+  }, [activeLanguage, kwakwalaPhraseSets, makahPhraseSets]);
 
   return (
     <Flex
@@ -613,7 +600,6 @@ const PhraseReviewComponent: React.FC = () => {
                 <Text fontWeight="bold">{phrase.phrase}</Text>
               </Flex>
               <Text fontSize="xs" color="gray">
-
                 {/* This need to working on  */}
                 By: {user?.firstname + user?.lastname || "Unknown"}
               </Text>
@@ -657,7 +643,6 @@ const PhraseReviewComponent: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <Text fontSize={{ base: "xs", medium: "md" }}>
-                      
                       {/* this need to be working on */}
 
                       {/* This need to working on  */}

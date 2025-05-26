@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Flex,
   Text,
@@ -18,6 +18,7 @@ import "./style.css";
 import { on } from "events";
 import ReviewModal from "../ReviewModal";
 import { useAuth } from "@/context/AuthContext";
+import { useDevice } from "@/context/DeviceContext";
 
 interface PhraseItem {
   id: string;
@@ -269,9 +270,7 @@ const completedPhrases: PhraseItem[] = [
 const CompletedReviewComponent: React.FC = () => {
   const [activeLanguage, setActiveLanguage] = useState("Kwakwala");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" && window.innerWidth < 600
-  );
+  const { isMobile } = useDevice();
   const [makahPhraseSets, setMakahPhraseSets] = useState<PhraseItem[]>([]);
   const [kwakwalaPhraseSets, setKwakwalaPhraseSets] = useState<PhraseItem[]>(
     []
@@ -295,17 +294,6 @@ const CompletedReviewComponent: React.FC = () => {
   }, [activeLanguage, kwakwalaPhraseSets, makahPhraseSets]);
 
   const { user } = useAuth();
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 600);
-    };
-
-    window.addEventListener("resize", handleResize);
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   return (
     <Flex

@@ -3,7 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import AuthService from "@/service/AuthServices";
 import { signOut } from "@aws-amplify/auth";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Flex,
@@ -14,6 +14,7 @@ import {
 } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import "./style.css";
+import { useDevice } from "@/context/DeviceContext";
 
 const isNumericDigit = (value: string): boolean => /^\d$/.test(value);
 
@@ -24,8 +25,8 @@ const ConfirmationCodePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const inputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
   const [feedback, setFeedback] = useState<string | null>(null);
-
   const router = useRouter();
+  const { isMobile} = useDevice();
 
   const handleVerify = async () => {
     if (!user) {
@@ -129,6 +130,7 @@ const ConfirmationCodePage: React.FC = () => {
                 <input
                   key={index}
                   ref={(el) => {
+                    if (!inputRefs.current) return;
                     inputRefs.current[index] = el;
                   }}
                   type="text"
@@ -149,7 +151,7 @@ const ConfirmationCodePage: React.FC = () => {
                     border: "1px solid #ccc",
                     borderRadius: "6px",
                     outline: "none",
-                    ...(window.innerWidth < 600
+                    ...(isMobile
                       ? { width: "3rem", height: "3rem", fontSize: "1.2rem" }
                       : {}),
                   }}

@@ -1,13 +1,14 @@
-'use client'; // ⬅️ Add this at the very top
+"use client"; // ⬅️ Add this at the very top
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Amplify } from "aws-amplify";
 // import awsExports from "@/aws-exports";
-import awsconfig from '@/awsConfig';
+import awsconfig from "@/awsConfig";
 import { AuthProvider } from "@/context/AuthContext";
-import '@aws-amplify/ui-react/styles.css';
+import "@aws-amplify/ui-react/styles.css";
+import { DeviceProvider } from "@/context/DeviceContext";
 
 Amplify.configure(awsconfig);
 
@@ -34,7 +35,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <DeviceProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </DeviceProvider>
       </body>
     </html>
   );
