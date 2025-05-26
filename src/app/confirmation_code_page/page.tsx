@@ -26,7 +26,7 @@ const ConfirmationCodePage: React.FC = () => {
   const inputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
   const [feedback, setFeedback] = useState<string | null>(null);
   const router = useRouter();
-  const { isMobile} = useDevice();
+  const { isMobile } = useDevice();
 
   const handleVerify = async () => {
     if (!user) {
@@ -173,9 +173,10 @@ const ConfirmationCodePage: React.FC = () => {
             </Button>
             <Button
               onClick={() => {
-                signOut();
-                setUser(null);
-                window.history.back();
+                signOut().then(() => {
+                  setUser(null);
+                  window.history.back();
+                });
               }}
               className="cancel-button"
               variation="link"

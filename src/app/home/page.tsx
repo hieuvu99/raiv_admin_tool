@@ -19,9 +19,10 @@ const HomePage: React.FC = () => {
   const [activeSection, setActiveSection] = useState("Uploads");
 
   const handleLogout = () => {
-    signOut();
-    setUser(null); // Reset auth state
-    router.push("/login"); // Redirect to login
+    signOut().then(() => {
+      setUser(null); // Reset auth state
+      router.push("/login"); // Redirect to login
+    });
   };
 
   const handleNavigation = (section: string) => {
@@ -56,7 +57,7 @@ const HomePage: React.FC = () => {
           backgroundColor="white"
         >
           {/* Header */}
-          <AppHeader handleLogout={handleLogout}/>
+          <AppHeader handleLogout={handleLogout} />
 
           {/* Scrollable Content */}
           <div style={{ flex: 1, overflow: "auto" }}>
