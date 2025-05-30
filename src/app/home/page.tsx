@@ -1,6 +1,5 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { signOut } from "@aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Flex } from "@aws-amplify/ui-react";
@@ -12,17 +11,22 @@ import CompletedReviewComponent from "@/components/CompletedReviewComponent";
 import SideBarComponent from "@/components/SideBarComponent";
 import BottomNavBar from "@/components/BottomNavBar";
 import AppHeader from "@/components/AppHeader";
+import AuthService from "@/service/AuthServices";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
   const { setUser } = useAuth();
   const [activeSection, setActiveSection] = useState("Uploads");
 
-  const handleLogout = () => {
-    signOut().then(() => {
-      setUser(null); // Reset auth state
-      router.push("/login"); // Redirect to login
-    });
+  const handleLogout = async () => {
+    try {
+    await AuthService.signOut();
+    setUser(null);
+    router.push("/login");
+  } catch (error) {
+    // Optionally show an error message to the user
+    console.error("Sign out failed:", error);
+  }
   };
 
   const handleNavigation = (section: string) => {

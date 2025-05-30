@@ -1,5 +1,5 @@
 // /d:/Project/Raiv_admin_tool/raiv_admin_tool/src/service/ApiServices.ts
-import { confirmSignIn, getCurrentUser, signIn } from "@aws-amplify/auth";
+import { confirmSignIn, getCurrentUser, signIn, signOut as amplifySignOut, AuthUser } from "@aws-amplify/auth";
 
 class AuthService {
   /**
@@ -41,10 +41,20 @@ class AuthService {
    * Fetches the current authenticated user.
    * @returns A promise that resolves to the current user or null if no user is authenticated.
    */
-  static async getCurrentUser(): Promise<any> {
+  static async getCurrentUser(): Promise<AuthUser | null> {
     try {
       return await getCurrentUser();
     } catch {
+      return null;
+    }
+  }
+
+  static async signOut(): Promise<void | null> {
+    try {
+        await amplifySignOut();
+        
+    } catch (error) {
+      console.error("Error during sign-out:", error);
       return null;
     }
   }
