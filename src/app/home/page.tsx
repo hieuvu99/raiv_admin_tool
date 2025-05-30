@@ -1,7 +1,7 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { Flex } from "@aws-amplify/ui-react";
 import FileUploadComponent from "@/components/FileUploadComponent";
 import UploadedFileComponent from "@/components/UploadedFileComponent";
@@ -12,21 +12,22 @@ import SideBarComponent from "@/components/SideBarComponent";
 import BottomNavBar from "@/components/BottomNavBar";
 import AppHeader from "@/components/AppHeader";
 import AuthService from "@/service/AuthServices";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
   const { setUser } = useAuth();
   const [activeSection, setActiveSection] = useState("Uploads");
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleLogout = async () => {
     try {
-    await AuthService.signOut();
-    setUser(null);
-    router.push("/login");
-  } catch (error) {
-    // Optionally show an error message to the user
-    console.error("Sign out failed:", error);
-  }
+      await AuthService.signOut();
+      setUser(null);
+      router.push("/login");
+    } catch (error) {
+      console.error("Sign out failed:", error);
+    }
   };
 
   const handleNavigation = (section: string) => {
@@ -34,13 +35,28 @@ const HomePage: React.FC = () => {
     console.log(`${section} clicked`);
   };
 
+  useEffect(() => {
+    AuthService.getCurrentUser().then((user) => {
+      if (!user) {
+        redirect("/login");
+      } else {
+        setIsLoading(false);
+      }
+    });
+  }, []);
+
+  if (isLoading) {
+    // Splash/loading screen
+    return (
+      <LoadingScreen/>
+    );
+  }
+
   return (
     <>
       <Flex
         height="100vh"
-        backgroundColor="var(
-    --primary-color
-  )"
+        backgroundColor="var(--primary-color)"
       >
         {/* Sidebar */}
         <SideBarComponent

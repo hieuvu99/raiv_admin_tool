@@ -1,9 +1,10 @@
 "use client";
+import LoadingScreen from "@/components/LoadingScreen";
 import { useAuth } from "@/context/AuthContext";
 import AuthService from "@/service/AuthServices";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   // return (
@@ -106,8 +107,10 @@ export default function Home() {
   //   </div>
   // );
   const { user, setUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     AuthService.getCurrentUser().then((user) => {
+      setIsLoading(false);
       !user && redirect("/login");
       // User is authenticated, redirect to the home page
       user &&
@@ -117,4 +120,11 @@ export default function Home() {
         })();
     });
   }, []);
+
+  if (isLoading) {
+    // Splash/loading screen
+    return (
+      <LoadingScreen />
+    );
+  }
 }
